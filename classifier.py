@@ -32,13 +32,12 @@ for i in range(dataset.shape[0]):
 
     # remove stop words and stemming
  
-    sms_processed = []
-    for word in tokenized_sms:
-        if word not in set(stopwords.words('english')):
-            sms_processed.append(spell(stemmer.stem(word)))
-
-    sms_text = " ".join(sms_processed)
-    data.append(sms_text)
+    row = []
+crimefile = open(fileName, 'r')
+for line in crimefile.readlines():
+    row.append([line])
+    for i in line.split(","):
+        row[-1].append(i)
 
 # creating the feature matrix 
 from sklearn.feature_extraction.text import CountVectorizer
@@ -51,9 +50,25 @@ from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(X, y)
 
 # Naive Bayes 
+from sklearn.svm import SVC
 from sklearn.naive_bayes import GaussianNB
-classifier = GaussianNB()
-classifier.fit(X_train, y_train)
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.cross_validation import  cross_val_score
+import time
+from sklearn.datasets import  load_iris
+
+iris = load_iris()
+
+models = [GaussianNB(), DecisionTreeClassifier(), SVC()]
+names = ["Naive Bayes", "Decision Tree", "SVM"]
+for model, name in zip(models, names):
+    print name
+    start = time.time()
+    for score in ["accuracy", "precision", "recall"]:
+        print score,
+        print " : ",
+        print cross_val_score(model, iris.data, iris.target,scoring=score, cv=10).mean()
+    print time.time() - start
 
 # predict class
 y_pred = classifier.predict(X_test)
