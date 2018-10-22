@@ -44,25 +44,25 @@ for i in range(dataset.shape[0]):
 from sklearn.feature_extraction.text import CountVectorizer
 matrix = CountVectorizer(max_features=1000)
 X = matrix.fit_transform(data).toarray()
-y = dataset.iloc[:, 0]
+Y = dataset.iloc[:, 0]
 
 # split train and test data
 from sklearn.model_selection import train_test_split
-X_train, X_test, y_train, y_test = train_test_split(X, y)
+X_train, X_test, Y_train, Y_test = train_test_split(X, Y)
 
 # Naive Bayes 
 from sklearn.naive_bayes import GaussianNB
 classifier = GaussianNB()
-classifier.fit(X_train, y_train)
+classifier.fit(X_train, Y_train)
 
 # predict class
-y_pred = classifier.predict(X_test)
+Y_pred = classifier.predict(X_test)
 
 # Confusion matrix
 from sklearn.metrics import confusion_matrix, classification_report, accuracy_score
-cm = confusion_matrix(y_test, y_pred)
-cr = classification_report(y_test, y_pred)
+cm = confusion_matrix(Y_test, Y_pred)
+cr = classification_report(Y_test, Y_pred)
 
-accuracy = accuracy_score(y_test, y_pred)
+accuracy = accuracy_score(Y_test, Y_pred)
 
 
