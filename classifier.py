@@ -8,7 +8,7 @@ nltk.download('punkt')
 from nltk.tokenize import word_tokenize as wt 
 
 nltk.download('stopwords')
-from nltk.corpus import stopwords
+from nltk.corpus import brown
 
 from nltk.stem.porter import PorterStemmer
 stemmer = PorterStemmer()
